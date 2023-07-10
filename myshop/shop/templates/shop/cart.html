@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h2>Cart</h2>
+    {% if cart_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>
+                            <form action="{% url 'shop:remove_from_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <p><strong>Total: ${{ cart_total }}</strong></p>
+            <a href="{% url 'shop:address_selection' %}" class="btn btn-primary">Proceed to Checkout</a>
+
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+{% endblock %}

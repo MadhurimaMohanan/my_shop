@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin_styles.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">My Shop Admin</a></h1>
+{% endblock %}
+
+{% block welcome-msg %}
+    {# Remove the welcome message #}
+{% endblock %}
+
+{% block userlinks %}
+    {% if user.is_active %}
+        {% if user.is_staff %}
+            <a href="{% url 'admin:logout' %}">Log out</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

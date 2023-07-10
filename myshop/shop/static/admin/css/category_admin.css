@@ -1,0 +1,29 @@
+th.column-product_count, th.column-display_image, th.column-name, th.column-is_featured {
+    text-align: center;
+}
+
+th.field-name, td.field-product_count, td.field-display_image, td.field-is_featured, td.action-checkbox {
+    vertical-align: middle;
+    text-align: center;
+}
+
+th.action-checkbox-column input[type="checkbox"], td.action-checkbox input[type="checkbox"], td.field-is_featured input[type="checkbox"] {
+    min-height: 15px;
+    min-width: 15px;
+}
+
+td.field-display_image {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+td.field-display_image img {
+    max-height: 60px;
+    max-width: 60px;
+    height: 60px;
+    width: 60px;
+
+    object-fit: contain;
+    object-position: center;
+    
+}

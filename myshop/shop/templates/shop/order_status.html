@@ -1,0 +1,29 @@
+<!-- order_status.html -->
+
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h2>Order Status</h2>
+    {% if orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.pk }}</td>
+                        <td>{{ order.product.name }}</td>
+                        <td>{{ order.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+{% endblock %}

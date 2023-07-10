@@ -1,0 +1,7 @@
+.dashboard #content {
+    width: unset;
+}
+
+#nav-sidebar .current-model {
+    background: #e6f7ff;
+}

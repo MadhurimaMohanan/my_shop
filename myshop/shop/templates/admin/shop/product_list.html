@@ -1,0 +1,62 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block result_list %}
+    <table id="result_list">
+        <thead>
+            <tr>
+                <th scope="col" class="column-name">{% admin_list_filter cl %}</th>
+                <th scope="col" class="column-category">{% trans 'Category' %}</th>
+                <th scope="col" class="column-price">{% trans 'Price' %}</th>
+                <th scope="col" class="column-is_active">{% trans 'Active' %}</th>
+                <th scope="col" class="column-image">{% trans 'Image' %}</th>
+                {% for result in cl.result_list %}
+                    {% for field in result %} 
+                        {% if field.is_checkbox %}
+                            <th scope="col" class="action-checkbox-column">
+                                <input type="checkbox" class="action-select" value="{{ result.pk }}" />
+                            </th>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in cl.result_list %}
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    {% for field in result %}
+                        {% if field.is_checkbox %}
+                            <td class="action-checkbox-column">
+                                {{ field }}
+                            </td>
+                        {% elif field.field_name == 'name' %}
+                            <td class="field-name">
+                                {{ field.contents }}
+                            </td>
+                        {% elif field.field_name == 'category' %}
+                            <td class="field-category">
+                                {{ field.contents }}
+                            </td>
+                        {% elif field.field_name == 'price' %}
+                            <td class="field-price">
+                                {{ field.contents }}
+                            </td>
+                        {% elif field.field_name == 'is_active' %}
+                            <td class="field-is_active">
+                                {{ field.contents }}
+                            </td>
+                        {% elif field.field_name == 'image' %}
+                            <td class="field-image">
+                                {{ field.contents }}
+                            </td>
+                        {% else %}
+                            <td class="field-{{ field.field_name }}">
+                                {{ field.contents }}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

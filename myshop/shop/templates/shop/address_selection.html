@@ -1,0 +1,51 @@
+<!-- address_selection.html -->
+{% extends 'shop/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h2>Address Selection</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Choose an Address</h4>
+            <ul class="list-group">
+                {% for address in addresses %}
+                    <li class="list-group-item {% if address.id == selected_address_id %}active{% endif %}">
+                        <a href="{% url 'shop:address_selection' %}?address={{ address.id }}">{{ address.address_line1 }}, {{ address.city }}, {{ address.state }}, {{ address.postal_code }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>{{ selected_address_id|default_if_none:'Add a New Address' }}</h4>
+            <form method="post" class="needs-validation">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="address_line1">Address Line 1</label>
+                    {{ form.address_line1|add_class:'form-control' }}
+                </div>
+                <div class="form-group">
+                    <label for="address_line2">Address Line 2</label>
+                    {{ form.address_line2|add_class:'form-control' }}
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        {{ form.city|add_class:'form-control' }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="state">State</label>
+                        {{ form.state|add_class:'form-control' }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="postal_code">Postal Code</label>
+                    {{ form.postal_code|add_class:'form-control' }}
+                </div>
+                <button type="submit" class="btn btn-primary">Update Address</button>
+            </form>
+        </div>
+    </div>
+    <div class="text-right">
+      <a href="{% url 'shop:place_order' %}" class="btn btn-primary">Place Order</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'shop/css/product_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid d-flex flex-row">
+        <!-- Sidebar -->
+        <div class="sidebar col-md-3">
+            <h4>Categories</h4>
+            <ul class="category-list">
+                {% for category in categories %}
+                    <li{% if category.id|stringformat:"s" == selected_category_id %} class="active"{% endif %}>
+                        <a href="?category={{ category.id|stringformat:"s" }}&search={{ search_query }}">
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="col-md-8">
+            <!-- Add the following code here -->
+            <div class="search-filter">
+                <form class="d-flex flex-row p-1 justify-content-end" action="{% url 'shop:products_list' %}" method="GET">
+                    <div class="form-group container-fluid">
+                        <input type="text" class="form-control" name="search" placeholder="Search products..." value="{{ search_query|default:'' }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm" style="height: 40px;">Search</button>
+                </form>
+            </div>
+            <!-- End Search Filter -->
+    
+            <!-- Product List -->
+            <div class="product-list">
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="{% static 'assets/images/product_placeholder.png' %}" class="card-img-top" alt="{{ product.name }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.price }}</p>
+                                    <p class="card-text">{{ product.average_rating }}</p>
+                                    <a href="{% url 'shop:add_to_cart' product_id=product.id %}" class="btn btn-primary{% if not customer_id %} disabled{% endif %}">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="container-fluid d-flex justify-content-center">
+                    <div class="pagination">
+                        {% if products.has_previous %}
+                            <a href="?category={{ selected_category_id|stringformat:"s" }}&search={{ search_query }}&page={{ products.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current-page">{{ products.number }}</span> <span class="total-pages">{{ products.paginator.num_pages }}</span>
+                        {% if products.has_next %}
+                            <a href="?category={{ selected_category_id|stringformat:"s" }}&search={{ search_query }}&page={{ products.next_page_number }}">Next</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- End Product List -->
+        </div>
+    </div>
+
+{% endblock %}
